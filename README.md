@@ -232,7 +232,7 @@ eb setenv \
     MEMCACHED_HOST=vprofile-cache.xxx.cache.amazonaws.com \
     RABBITMQ_HOST=b-xxx.mq.us-east-1.amazonaws.com
 
-5. Security Group Configuration
+# 5. Security Group Configuration
 
 | Security Group | Inbound Rules | Source |
 |----------------|---------------|---------|
