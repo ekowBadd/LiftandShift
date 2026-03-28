@@ -175,13 +175,13 @@ aws rds create-db-instance \
     --multi-az \
     --vpc-security-group-ids sg-backend-id
 
-| Parameter | Value | Description |
-|-----------|-------|-------------|
-| Instance Class | db.t3.micro | Free tier eligible |
-| Engine | MySQL 8.0 | Database engine |
-| Storage | 20 GB | Minimum for production |
-| Backup Retention | 7 days | Automated backups |
-| Multi-AZ | Enabled | High availability |
+| Parameter        | Value        | Description              |
+|------------------|-------------|--------------------------|
+| Instance Class   | db.t3.micro | Free tier eligible       |
+| Engine           | MySQL 8.0   | Database engine          |
+| Storage          | 20 GB       | Minimum for production   |
+| Backup Retention | 7 days      | Automated backups        |
+| Multi-AZ         | Enabled     | High availability        |
 
 🔹 ElastiCache Memcached
 
@@ -505,11 +505,11 @@ aws logs tail /aws/elasticbeanstalk/vprofile-env/var/log/eb-activity.log --follo
 # Download all logs
 eb logs --all
 
-| Log File	| Purpose |
-|-----------------------------|------------------------------|
-| /var/log/eb-activity.log	| Elastic Beanstalk deployment logs |
-| /var/log/tomcat8/catalina.out	| Tomcat application logs |
-| /var/log/cloud-init.log |	Instance initialization logs |
+| Log File                     | Purpose                              |
+|-----------------------------|--------------------------------------|
+| /var/log/eb-activity.log    | Elastic Beanstalk deployment logs    |
+| /var/log/tomcat8/catalina.out | Tomcat application logs           |
+| /var/log/cloud-init.log     | Instance initialization logs         |
 
 Cost Optimization
 Compute Optimization
@@ -574,18 +574,18 @@ nc -zv vprofile-db.xxx.rds.amazonaws.com 3306
 curl -I http://localhost:8080/login
 
 ## Technologies Used
-| Category	| Technology |
-|-----------|-------------------------------------|
-| Framework	| Spring MVC, Spring Security, Spring Data JPA |
-|Build Tool	|Maven|
-| Frontend	| JSP, Bootstrap, CSS3, JavaScript |
-| Database	| MySQL 8 |
-| Caching	| Memcached (ElastiCache) |
-| Messaging	| RabbitMQ (Amazon MQ) |
-| Search	    | ElasticSearch |
-| Cloud Services	| AWS EC2, RDS, ElastiCache, MQ, Beanstalk, CloudFront, Route53, S3, ACM, CloudWatch |
-| Deployment	| Elastic Beanstalk, Auto Scaling |
-| Monitoring	| CloudWatch, X-Ray | 
+| Category        | Technology                                                                 |
+|----------------|----------------------------------------------------------------------------|
+| Framework      | Spring MVC, Spring Security, Spring Data JPA                              |
+| Build Tool     | Maven                                                                     |
+| Frontend       | JSP, Bootstrap, CSS3, JavaScript                                          |
+| Database       | MySQL 8                                                                   |
+| Caching        | Memcached (ElastiCache)                                                   |
+| Messaging      | RabbitMQ (Amazon MQ)                                                      |
+| Search         | Elasticsearch                                                             |
+| Cloud Services | AWS EC2, RDS, ElastiCache, MQ, Beanstalk, CloudFront, Route53, S3, ACM, CloudWatch |
+| Deployment     | Elastic Beanstalk, Auto Scaling                                           |
+| Monitoring     | CloudWatch, X-Ray                                                         |
 
 Contributing
 Fork the repository
