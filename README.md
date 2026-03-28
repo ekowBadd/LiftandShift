@@ -162,7 +162,7 @@ aws s3api put-bucket-versioning \
 3. Backend Services Setup
 🔹 RDS MySQL
 
-# Create RDS instance
+## Creat RDS instance
 aws rds create-db-instance \
     --db-instance-identifier vprofile-db \
     --db-instance-class db.t3.micro \
@@ -174,6 +174,14 @@ aws rds create-db-instance \
     --backup-retention-period 7 \
     --multi-az \
     --vpc-security-group-ids sg-backend-id
+
+| Component | Technology |
+|----------|-----------|
+| Web Server | Nginx |
+| Application Server | Apache Tomcat |
+| Database | MySQL |
+| Caching | Memcached |
+| Message Queue | RabbitMQ |
 
 | Parameter        | Value        | Description              |
 |------------------|-------------|--------------------------|
@@ -233,7 +241,6 @@ eb setenv \
     RABBITMQ_HOST=b-xxx.mq.us-east-1.amazonaws.com
 
 # 5. Security Group Configuration
-
 | Security Group | Inbound Rules | Source |
 |----------------|---------------|---------|
 | ALB SG | HTTPS (443) | Internet (0.0.0.0/0) |
