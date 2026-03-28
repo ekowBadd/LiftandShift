@@ -46,20 +46,34 @@ This project documents the **migration of the vProfile application** from on-pre
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
-### Request Flow
+### Request Flow Diagram
 
 ```mermaid
 graph TD
-    A[User] --> B[Route53 DNS]
-    B --> C[CloudFront]
-    C --> D[Application Load Balancer]
-    D --> E[Elastic Beanstalk]
-    E --> F1[RDS MySQL]
-    E --> F2[ElastiCache]
-    E --> F3[Amazon MQ]
+    A[🌐 User] --> B[GoDaddy/Route53 DNS]
+    B --> C[☁️ CloudFront CDN]
+    C --> D[⚖️ Application Load Balancer]
+    D --> E[🚀 Elastic Beanstalk<br/>Tomcat Auto Scaling]
+    E --> F1[(🗄️ RDS MySQL)]
+    E --> F2[(⚡ ElastiCache Memcached)]
+    E --> F3[(📨 Amazon MQ RabbitMQ)]
+    F1 --> E
+    F2 --> E
+    F3 --> E
+    E --> C
+    C --> A
 
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style E fill:#bfb,stroke:#333,stroke-width:2px
+    style F1 fill:#fbf,stroke:#333,stroke-width:2px
+    style F2 fill:#fbf,stroke:#333,stroke-width:2px
+    style F3 fill:#fbf,stroke:#333,stroke-width:2px
+```
 
 ## Service Comparison
 
