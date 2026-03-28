@@ -5,6 +5,8 @@
 [![Spring](https://img.shields.io/badge/Spring-5-green?style=for-the-badge&logo=spring)](https://spring.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
+---
+
 ## 📋 Table of Contents
 - [Project Overview](#project-overview)
 - [Architecture](#architecture)
@@ -20,56 +22,43 @@
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
-This project documents the **migration of the vProfile application** from on-premises infrastructure to AWS Cloud. The application is a multi-tier web application built with Java (Spring framework) that demonstrates a typical enterprise architecture.
+This project documents the **migration of the vProfile application** from on-premises infrastructure to AWS Cloud.
 
 ### Original On-Premises Stack
+
 | Component | Technology |
-|-----------|------------|
-| Web Server | Nginx (Reverse Proxy) |
+|----------|-----------|
+| Web Server | Nginx |
 | Application Server | Apache Tomcat |
 | Database | MySQL |
 | Caching | Memcached |
 | Message Queue | RabbitMQ |
 
-### AWS Cloud Architecture Benefits
-- ✅ **High Availability** with Multi-AZ deployments
-- ✅ **Auto Scaling** for variable workloads
-- ✅ **Reduced Operational Overhead** with managed services
-- ✅ **Pay-as-you-go** cost model
-- ✅ **Infrastructure as Code** approach
+### AWS Cloud Benefits
+
+- ✅ High Availability (Multi-AZ)
+- ✅ Auto Scaling
+- ✅ Managed Services
+- ✅ Pay-as-you-go
+- ✅ Infrastructure as Code
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
-### Request Flow Diagram
+### Request Flow
 
 ```mermaid
 graph TD
-    A[🌐 User] --> B[GoDaddy/Route53 DNS]
-    B --> C[☁️ CloudFront CDN]
-    C --> D[⚖️ Application Load Balancer]
-    D --> E[🚀 Elastic Beanstalk<br/>Tomcat Auto Scaling]
-    E --> F1[(🗄️ RDS MySQL)]
-    E --> F2[(⚡ ElastiCache Memcached)]
-    E --> F3[(📨 Amazon MQ RabbitMQ)]
-    F1 --> E
-    F2 --> E
-    F3 --> E
-    E --> C
-    C --> A
-
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bbf,stroke:#333,stroke-width:2px
-    style D fill:#bbf,stroke:#333,stroke-width:2px
-    style E fill:#bfb,stroke:#333,stroke-width:2px
-    style F1 fill:#fbf,stroke:#333,stroke-width:2px
-    style F2 fill:#fbf,stroke:#333,stroke-width:2px
-    style F3 fill:#fbf,stroke:#333,stroke-width:2px
-
+    A[User] --> B[Route53 DNS]
+    B --> C[CloudFront]
+    C --> D[Application Load Balancer]
+    D --> E[Elastic Beanstalk]
+    E --> F1[RDS MySQL]
+    E --> F2[ElastiCache]
+    E --> F3[Amazon MQ]
 
 
 ## Service Comparison
