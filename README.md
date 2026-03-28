@@ -71,75 +71,19 @@ graph TD
     style F3 fill:#fbf,stroke:#333,stroke-width:2px
 
 
-## **Complete corrected sequence diagram section:**
-
-```markdown
-
-## Sequence Diagram
-
-```mermaid
-sequenceDiagram
-    participant User as 🌐 User
-    participant DNS as GoDaddy/Route53
-    participant CDN as CloudFront
-    participant ALB as Load Balancer
-    participant EB as Elastic Beanstalk
-    participant RDS as RDS MySQL
-    participant EC as ElastiCache
-    participant MQ as Amazon MQ
-
-    User->>DNS: 1. Access URL
-    DNS->>CDN: 2. DNS Resolution
-    CDN->>ALB: 3. Forward Request
-    ALB->>EB: 4. Route to Healthy Instance
-    EB->>RDS: 5. Query Data
-    EB->>EC: 6. Check Cache
-    EB->>MQ: 7. Process Messages
-    RDS-->>EB: 8. Return Data
-    EC-->>EB: 9. Cache Hit/Miss
-    MQ-->>EB: 10. Message Acknowledgment
-    EB-->>User: 11. Serve Response
-
-
-## Execution Flow - Step by Step
-
-```mermaid
-graph TD
-    A[1️⃣ Login to AWS Account] --> B[2️⃣ Create Key Pair]
-    B --> C[3️⃣ Configure Security Groups]
-    C --> D[4️⃣ Launch Backend Services]
-    
-    D --> D1[Create RDS MySQL]
-    D --> D2[Create ElastiCache Memcached]
-    D --> D3[Create Amazon MQ RabbitMQ]
-    
-    D1 --> E[5️⃣ Create Elastic Beanstalk Environment]
-    D2 --> E
-    D3 --> E
-    
-    E --> F[6️⃣ Update Security Group Rules]
-    F --> G[7️⃣ Initialize RDS Database]
-    G --> H[8️⃣ Configure Health Check: /login]
-    H --> I[9️⃣ Add HTTPS Listener Port 443]
-    I --> J[🔟 Build Artifact with Backend Endpoints]
-    J --> K[1️⃣1️⃣ Deploy to Elastic Beanstalk]
-    K --> L[1️⃣2️⃣ Create CloudFront Distribution]
-    L --> M[1️⃣3️⃣ Update DNS Records]
-    M --> N[1️⃣4️⃣ Test Application]
 
 ## Service Comparison
 
-| Traditional Component | AWS Managed Service | Benefit |
-|----------------------|---------------------|---------|
-| Tomcat on EC2 | Elastic Beanstalk | Automated patching, deployment, and capacity management |
-| Manual Load Balancer | Application Load Balancer | Integrated health checks and SSL termination |
-| MySQL on EC2 | Amazon RDS | Automated backups, updates, and Multi-AZ failover |
-| Memcache on EC2 | Amazon ElastiCache | Managed in-memory caching with built-in replication |
-| RabbitMQ on EC2 | Amazon MQ | Managed message broker with easy migration |
-| Custom DNS | Route 53 | Reliable and scalable DNS management |
-| Global Delivery | CloudFront | Low latency content delivery for global audience |
-| Artifact Storage | Amazon S3 | Scalable, versioned artifact storage |
-
+| Traditional Component | AWS Managed Service | Key Benefit | Technical Advantage |
+|----------------------|---------------------|-------------|---------------------|
+| Tomcat on EC2 | Elastic Beanstalk | Automated patching, deployment, and capacity management | Built-in auto-scaling, health monitoring, and rolling updates |
+| Manual Load Balancer | Application Load Balancer | Integrated health checks and SSL termination | Layer 7 routing, WebSocket support, and request tracing |
+| MySQL on EC2 | Amazon RDS | Automated backups, updates, and Multi-AZ failover | Point-in-time recovery, performance insights, and read replicas |
+| Memcache on EC2 | Amazon ElastiCache | Managed in-memory caching with built-in replication | Automatic failure detection, cluster mode, and Redis/Memcached support |
+| RabbitMQ on EC2 | Amazon MQ | Managed message broker with easy migration | Industry-standard protocols (AMQP, MQTT, STOMP), easy lift-and-shift |
+| Custom DNS | Route 53 | Reliable and scalable DNS management | 100% SLA, DNS failover, latency-based routing |
+| Global Delivery | CloudFront | Low latency content delivery for global audience | Edge locations (400+), DDoS protection, field-level encryption |
+| Artifact Storage | Amazon S3 | Scalable, versioned artifact storage | 11 9's durability, lifecycle policies, cross-region replication |
 ## Deployment Guide
 
 ### 1. Prerequisites
@@ -229,12 +173,12 @@ aws rds create-db-instance \
     --vpc-security-group-ids sg-backend-id
 
 | Parameter | Value | Description |
-|------------------|-----------------|----------------|
-| Instance Class |	db.t3.micro | Free tier eligible |
-| Engine |	MySQL 8.0 | Database engine
-| Storage |	20 GB | Minimum for production |
-| Backup Retention | 7 days	Automated backups
-| Multi-AZ | Enabled	High availability
+|-----------|-------|-------------|
+| Instance Class | db.t3.micro | Free tier eligible |
+| Engine | MySQL 8.0 | Database engine |
+| Storage | 20 GB | Minimum for production |
+| Backup Retention | 7 days | Automated backups |
+| Multi-AZ | Enabled | High availability |
 
 🔹 ElastiCache Memcached
 
@@ -287,11 +231,11 @@ eb setenv \
 
 5. Security Group Configuration
 
-| Security Group	| Inbound Rules	| Source |
-|-------------------|--------------|------------|
-| ALB SG	| HTTPS (443)	| Internet (0.0.0.0/0) |
-| Tomcat SG	| HTTP (8080)	| ALB Security Group |
-| Backend SG | MySQL (3306), Memcache (11211), RabbitMQ (5672)	| Tomcat Security Group |
+| Security Group | Inbound Rules | Source |
+|----------------|---------------|---------|
+| ALB SG | HTTPS (443) | Internet (0.0.0.0/0) |
+| Tomcat SG | HTTP (8080) | ALB Security Group |
+| Backend SG | MySQL (3306), Memcache (11211), RabbitMQ (5672) | Tomcat Security Group |
 
 # Get security group IDs after Beanstalk creation
 aws ec2 describe-security-groups \
