@@ -109,6 +109,7 @@ graph TD
 - Java 11             # java -version
 - EB CLI              # eb --version
 - Node.js (optional)  # For local testing
+```
 
 ### 8. Domain and SSL Certificate Setup
 
@@ -126,6 +127,7 @@ graph TD
 ```bash
 # Navigate to AWS Certificate Manager (ACM)
 # Region must be us-east-1 for CloudFront distributions
+```
 
 aws acm request-certificate \
     --domain-name yourdomain.com \
@@ -133,11 +135,13 @@ aws acm request-certificate \
     --subject-alternative-names www.yourdomain.com \
     --region us-east-1
 
+
 ## 2. Initial AWS Setup
 
 ```bash
 # Configure AWS CLI
 aws configure
+```
 
 # Create key pair
 aws ec2 create-key-pair \
@@ -175,13 +179,6 @@ aws rds create-db-instance \
     --multi-az \
     --vpc-security-group-ids sg-backend-id
 
-| Component | Technology |
-|----------|-----------|
-| Web Server | Nginx |
-| Application Server | Apache Tomcat |
-| Database | MySQL |
-| Caching | Memcached |
-| Message Queue | RabbitMQ |
 
 | Parameter        | Value        | Description              |
 |------------------|-------------|--------------------------|
