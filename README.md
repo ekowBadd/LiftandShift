@@ -356,16 +356,20 @@ aws route53 change-resource-record-sets \
             }
         }]
     }'
-</details><details> <summary><b>Option 2: External Registrar (GoDaddy)</b></summary>
+</details>
+
+<details>
+<summary><b>Option 2: External Registrar (GoDaddy)</b></summary>
 
 Create a CNAME record pointing to:
 
-vprofile-env.elasticbeanstalk.com
+`vprofile-env.elasticbeanstalk.com`
 
 </details>
 
-Project Structure
+## Project Structure
 
+```text
 vprofile-project/
 ├── 📄 README.md                       # Project documentation (this file)
 ├── 📁 userdata/                       # AWS EC2 user-data scripts
@@ -396,26 +400,27 @@ vprofile-project/
 │   └── 📁 test/                       # Unit tests
 ├── 📄 al2023rmq.repo                  # Amazon Linux 2023 RabbitMQ repo
 └── 📄 pom.xml                         # Maven configuration
+```
 
 Configuration
 Application Properties
 
 # Database configuration
-db.host=${RDS_HOST}
-db.port=3306
-db.name=vprofile
-db.username=${RDS_USER}
-db.password=${RDS_PASSWORD}
+- db.host=${RDS_HOST}
+- db.port=3306
+- db.name=vprofile
+- db.username=${RDS_USER}
+- db.password=${RDS_PASSWORD}
 
 # Cache configuration
-memcache.host=${MEMCACHED_HOST}
-memcache.port=11211
+- memcache.host=${MEMCACHED_HOST}
+- memcache.port=11211
 
 # Message queue configuration
-rabbitmq.host=${RABBITMQ_HOST}
-rabbitmq.port=5672
-rabbitmq.username=admin
-rabbitmq.password=${MQ_PASSWORD}
+- rabbitmq.host=${RABBITMQ_HOST}
+- rabbitmq.port=5672
+- rabbitmq.username=admin
+- rabbitmq.password=${MQ_PASSWORD}
 
 User-Data Script Example
 #!/bin/bash
@@ -432,15 +437,12 @@ yum install -y tomcat
 aws s3 cp s3://vprofile-artifacts/vprofile-v2.war /usr/share/tomcat/webapps/ROOT.war
 
 # Set environment variables from Parameter Store
-export RDS_HOST=$(aws ssm get-parameter --name /vprofile/rds-host --query Parameter.Value --output text)
-export RDS_PASSWORD=$(aws ssm get-parameter --name /vprofile/rds-password --with-decryption --query Parameter.Value --output text)
+- export RDS_HOST=$(aws ssm get-parameter --name /vprofile/rds-host --query Parameter.Value --output text)
+- export RDS_PASSWORD=$(aws ssm get-parameter --name /vprofile/rds-password --with-decryption --query Parameter.Value --output text)
 
 # Start Tomcat
-systemctl start tomcat
-systemctl enable tomcat
-
-Testing
-Functional Testing
+- systemctl start tomcat
+- systemctl enable tomcat
 
 # Test homepage
 curl -I https://www.yourdomain.com
@@ -457,7 +459,7 @@ curl https://www.yourdomain.com/login
 aws elbv2 describe-target-health \
     --target-group-arn target-group-arn
 
-Load Testing
+# Load Testing
 
 # Using Apache Bench
 ab -n 1000 -c 100 https://www.yourdomain.com/
@@ -548,16 +550,18 @@ Configure compression in CloudFront
 
 Set appropriate cache-control headers
 
-Troubleshooting
-Issue	Possible Cause	Solution
-502 Bad Gateway	Application not starting	Check logs: eb logs
-Database connection	Security group rules	Verify inbound rules on RDS SG
-Health check failing	Wrong endpoint	Ensure /login is accessible
-Deployment stuck	S3 permissions	Check bucket policy
-High response time	Cache miss	Check ElastiCache connectivity
-MQ connection refused	Port not open	Verify security group port 5672
-504 Gateway Timeout	Load balancer timeout	Increase timeout settings
-DNS resolution failed	Private hosted zone	Check VPC association
+# Troubleshooting
+
+| Issue | Possible Cause | Solution |
+|-------|----------------|----------|
+| 502 Bad Gateway | Application not starting | Check logs: `eb logs` |
+| Database connection | Security group rules | Verify inbound rules on RDS SG |
+| Health check failing | Wrong endpoint | Ensure `/login` is accessible |
+| Deployment stuck | S3 permissions | Check bucket policy |
+| High response time | Cache miss | Check ElastiCache connectivity |
+| MQ connection refused | Port not open | Verify security group port 5672 |
+| 504 Gateway Timeout | Load balancer timeout | Increase timeout settings |
+| DNS resolution failed | Private hosted zone | Check VPC association |
 
 Debug Commands
 
@@ -577,7 +581,7 @@ nc -zv vprofile-db.xxx.rds.amazonaws.com 3306
 # Test backend connectivity from Tomcat instance
 curl -I http://localhost:8080/login
 
-## Technologies Used
+# Technologies Used
 | Category        | Technology                                                                 |
 |----------------|----------------------------------------------------------------------------|
 | Framework      | Spring MVC, Spring Security, Spring Data JPA                              |
@@ -591,16 +595,16 @@ curl -I http://localhost:8080/login
 | Deployment     | Elastic Beanstalk, Auto Scaling                                           |
 | Monitoring     | CloudWatch, X-Ray                                                         |
 
-Contributing
-Fork the repository
+# Contributing
+**Fork the repository**
 
-Create a feature branch (git checkout -b feature/amazing-feature)
+- Create a feature branch (git checkout -b feature/amazing-feature)
 
-Commit your changes (git commit -m 'Add amazing feature')
+- Commit your changes (git commit -m 'Add amazing feature')
 
-Push to the branch (git push origin feature/amazing-feature)
+ - Push to the branch (git push origin feature/amazing-feature)
 
-Open a Pull Request
+**Open a Pull Request**
 
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
